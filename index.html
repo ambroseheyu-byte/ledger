@@ -25,7 +25,7 @@
 *{box-sizing:border-box;min-width:0;-webkit-tap-highlight-color:transparent}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,"SF Pro Text","PingFang SC","Helvetica Neue",sans-serif;overflow-x:clip}
 .num{font-family:-apple-system,"SF Pro Display","Helvetica Neue",sans-serif;font-variant-numeric:tabular-nums;white-space:nowrap}
-.wrap{max-width:520px;margin:0 auto;padding:calc(env(safe-area-inset-top) + 22px) 20px calc(env(safe-area-inset-bottom) + 110px)}
+.wrap{max-width:520px;margin:0 auto;padding:calc(env(safe-area-inset-top) + 22px) 20px calc(env(safe-area-inset-bottom) + 170px)}
 header{display:flex;align-items:center;justify-content:space-between;margin-bottom:26px}
 .month{display:flex;align-items:center;gap:6px}
 .month h1{font-size:15px;font-weight:600;margin:0;letter-spacing:.02em}
@@ -70,13 +70,14 @@ h2 span{font-size:13px;color:var(--mute);font-weight:400}
 .del{width:44px;height:44px;border:0;background:none;color:var(--mute);border-radius:12px;cursor:pointer;font:inherit;font-size:12px}
 .del.sure{color:#fff;background:var(--over);width:auto;padding:0 12px}
 .empty{background:var(--card);border-radius:18px;padding:28px 18px;text-align:center;color:var(--mute);font-size:14px}
-.fab{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 22px);transform:translateX(-50%);width:62px;height:62px;border-radius:50%;border:0;background:var(--btn);color:var(--btnInk);display:grid;place-items:center;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.18);z-index:5}
+.fab{position:fixed;right:max(20px,calc(50% - 240px));bottom:calc(env(safe-area-inset-bottom) + 84px);width:62px;height:62px;border-radius:50%;border:0;background:var(--btn);color:var(--btnInk);display:grid;place-items:center;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.18);z-index:5}
 .fab svg{width:24px;height:24px}
 .note{font-size:12px;color:var(--mute);text-align:center;margin-top:22px}
 /* sheet */
 .scrim{position:fixed;inset:0;background:rgba(0,0,0,.28);opacity:0;pointer-events:none;transition:opacity .25s;z-index:10}
 .sheet{position:fixed;left:0;right:0;bottom:0;max-width:520px;margin:0 auto;background:var(--card);border-radius:26px 26px 0 0;padding:10px 20px calc(env(safe-area-inset-bottom) + 20px);transform:translateY(105%);transition:transform .32s cubic-bezier(.2,.8,.2,1);z-index:11;max-height:92vh;overflow-y:auto}
 .open .scrim{opacity:1;pointer-events:auto}
+.sheet:not(.on){visibility:hidden;transition:transform .32s cubic-bezier(.2,.8,.2,1),visibility 0s .32s}
 .sheet.on{transform:none}
 .grab{width:38px;height:5px;border-radius:5px;background:var(--line);margin:0 auto 14px}
 .sheet h3{margin:0 0 16px;font-size:17px;font-weight:600;display:flex;justify-content:space-between;align-items:center}
@@ -95,6 +96,34 @@ h2 span{font-size:13px;color:var(--mute);font-weight:400}
 .hint{font-size:12.5px;color:var(--mute);margin:-6px 0 16px}
 .toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top) + 14px);transform:translate(-50%,-80px);background:var(--btn);color:var(--btnInk);padding:10px 18px;border-radius:999px;font-size:14px;transition:transform .3s;z-index:20}
 .toast.on{transform:translate(-50%,0)}
+.fab[hidden]{display:none}
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:6;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));padding:6px max(8px,calc(50% - 250px)) calc(env(safe-area-inset-bottom) + 6px);background:color-mix(in srgb,var(--card) 88%,transparent);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border-top:1px solid var(--line)}
+.tab{border:0;background:none;color:var(--mute);font:inherit;font-size:11.5px;display:grid;justify-items:center;gap:3px;padding:6px 0;min-height:52px;cursor:pointer;border-radius:12px}
+.tab svg{width:23px;height:23px}
+.tab.on{color:var(--ink);font-weight:600}
+.page[hidden]{display:none}
+.inc .top{margin-bottom:12px}
+.inc .row{margin-bottom:6px}
+.pie{background:var(--card);border-radius:22px;padding:20px 18px;margin-bottom:12px}
+.pie h4{margin:0 0 14px;font-size:15px;font-weight:600;display:flex;justify-content:space-between;align-items:baseline}
+.pie h4 span{font-size:13px;color:var(--mute);font-weight:400}
+.pieBody{display:grid;grid-template-columns:136px minmax(0,1fr);gap:16px;align-items:center}
+.donut{position:relative;width:136px;height:136px}
+.donut svg{width:100%;height:100%;transform:rotate(-90deg)}
+.donut .c{position:absolute;inset:0;display:grid;place-content:center;text-align:center;line-height:1.2}
+.donut .c small{font-size:12px;color:var(--mute)}
+.donut .c b{font-size:19px;font-weight:600}
+.legend{display:grid;gap:9px;font-size:14px}
+.legend div{display:grid;grid-template-columns:10px minmax(0,1fr) auto auto;gap:8px;align-items:center}
+.legend i{width:10px;height:10px;border-radius:3px}.legend span{white-space:nowrap}
+.legend em{font-style:normal;color:var(--mute);font-size:12.5px;text-align:right}
+.pieEmpty{color:var(--mute);font-size:14px;text-align:center;padding:24px 0}
+.bal{background:var(--card);border-radius:22px;padding:6px 18px}
+.bal div{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px}
+.bal div:last-child{border-bottom:0;font-weight:600}
+.bal div span:first-child{color:var(--mute)}
+.bal div:last-child span:first-child{color:var(--ink)}
+@media(max-width:380px){.pieBody{grid-template-columns:minmax(0,1fr)}.donut{margin:0 auto}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -109,6 +138,7 @@ h2 span{font-size:13px;color:var(--mute);font-weight:400}
     <button class="icon" id="setBtn" aria-label="预算设置"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></button>
   </header>
 
+  <main class="page" id="pExp">
   <section class="hero">
     <small id="heroLbl">本月还可以花</small>
     <div class="big num" id="heroAmt"><span>¥</span>0</div>
@@ -121,7 +151,39 @@ h2 span{font-size:13px;color:var(--mute);font-weight:400}
   <h2>明细 <span id="cnt"></span></h2>
   <section id="records"></section>
   <p class="note" id="syncNote">点任意卡片可以直接记这一类 · 数据只存在这台手机上</p>
+  </main>
+
+  <main class="page" id="pInc" hidden>
+    <section class="hero">
+      <small>本月收入</small>
+      <div class="big num" id="incAmt"><span>¥</span>0</div>
+      <div class="strip" id="incStrip"></div>
+      <div class="sub"><span id="incSub"></span><span id="incCnt2"></span></div>
+    </section>
+    <section class="cards" id="incCards"></section>
+    <h2>明细 <span id="incCnt"></span></h2>
+    <section id="incRecords"></section>
+  </main>
+
+  <main class="page" id="pSta" hidden>
+    <section class="hero">
+      <small id="balLbl">本月结余</small>
+      <div class="big num" id="balAmt"><span>¥</span>0</div>
+      <div class="sub"><span id="balSub"></span></div>
+    </section>
+    <section class="pie" id="pieExp"></section>
+    <section class="pie" id="pieInc"></section>
+    <h2>本月结余</h2>
+    <section class="bal" id="balTable"></section>
+    <p class="note">结余 = 收入 − 支出；支出包含转入储蓄的钱</p>
+  </main>
 </div>
+
+<nav class="tabs" aria-label="页面切换">
+  <button class="tab" data-t="exp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="15" rx="4"/><path d="M3 10h18M8 15h4"/></svg>支出</button>
+  <button class="tab" data-t="inc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12M7 11l5 5 5-5M5 20h14"/></svg>收入</button>
+  <button class="tab" data-t="sta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 4v8l6 5"/></svg>统计</button>
+</nav>
 
 <button class="fab" id="fab" aria-label="记一笔"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
 
@@ -161,7 +223,10 @@ const ICON={
  misc:'<path d="M5 8h14l-1.5 12h-11zM9 8V6a3 3 0 0 1 6 0v2"/>',
  save:'<rect x="3" y="7" width="18" height="13" rx="3"/><path d="M16 13.5h2M7 7l3-3h4l3 3"/>',
  learn:'<path d="M4 5h6a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H4zM20 5h-6a2 2 0 0 0-2 2v13a2 2 0 0 1 2-2h6z"/>',
- love:'<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>'
+ love:'<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>',
+ life:'<path d="M4 8a2 2 0 0 1 2-2h12v12H6a2 2 0 0 1-2-2zM4 8h16v10M15 12.5h2"/>',
+ side:'<rect x="4" y="8" width="16" height="11" rx="3"/><path d="M9 8V6a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M4 13h16"/>',
+ grant:'<circle cx="12" cy="9" r="5"/><path d="M9 13l-1.5 7 4.5-2.5 4.5 2.5L15 13"/>'
 };
 const CATS=[
  {k:'food',n:'吃饭',tint:'#dfe8da',fill:'#7f9a78',dk:'#2b3528'},
@@ -170,6 +235,13 @@ const CATS=[
  {k:'learn',n:'学习',tint:'#e5e1ee',fill:'#8d83a8',dk:'#2e2a38'},
  {k:'love',n:'恋爱',tint:'#f3dfdc',fill:'#c47f78',dk:'#3c2a28'}
 ];
+const INC=[
+ {k:'life',n:'生活费',tint:'#dcebe7',fill:'#5f978c',dk:'#21332f'},
+ {k:'side',n:'副业',tint:'#f2e3cf',fill:'#c3874c',dk:'#3b2c1d'},
+ {k:'grant',n:'项目津贴',tint:'#dfe3f2',fill:'#6a7db3',dk:'#252b3e'}
+];
+const ALL=CATS.concat(INC);
+const isInc=k=>INC.some(c=>c.k===k);
 const DEF={food:900,misc:300,save:650,learn:200,love:550,foodDay:30};
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -184,6 +256,8 @@ let budgets={...DEF};
 let months={};            // {'2026-11':[{id,c,a,n,d,t}]}
 let view=new Date();view.setDate(1);
 let pickCat='food';
+let tab='exp';try{tab=localStorage.getItem('ledger.tab')||'exp'}catch(e){}
+if(!['exp','inc','sta'].includes(tab))tab='exp';
 
 /* ---------- local cache ---------- */
 function loadLocal(){try{const s=JSON.parse(localStorage.getItem('ledger.v1')||'null');if(s){budgets={...DEF,...s.budgets};months=s.months||{}}}catch(e){}}
@@ -209,7 +283,7 @@ function importData(file){
   r.onload=()=>{try{const o=JSON.parse(r.result);if(!o||typeof o.months!=='object')throw 0;
     for(const m in o.months){if(!Array.isArray(o.months[m]))continue;
       const ids=new Set((months[m]||[]).map(x=>x.id));
-      const add=o.months[m].filter(x=>x&&typeof x.id==='string'&&!ids.has(x.id)&&CATS.some(c=>c.k===x.c)&&+x.a>0&&/^\d{4}-\d{2}-\d{2}$/.test(x.d))
+      const add=o.months[m].filter(x=>x&&typeof x.id==='string'&&!ids.has(x.id)&&ALL.some(c=>c.k===x.c)&&+x.a>0&&/^\d{4}-\d{2}-\d{2}$/.test(x.d))
         .map(x=>({id:x.id,c:x.c,a:+x.a,n:String(x.n||'').slice(0,40),d:x.d,t:+x.t||0}));
       months[m]=(months[m]||[]).concat(add)}
     if(o.budgets)for(const k in DEF){const v=+o.budgets[k];if(v>=0)budgets[k]=v}
@@ -228,11 +302,16 @@ function render(){
   const y=view.getFullYear(),m=view.getMonth(),mk=y+'-'+pad(m+1);
   const now=new Date(),isCur=now.getFullYear()===y&&now.getMonth()===m;
   const days=dim(y,m);
-  const list=(months[mk]||[]).slice();
+  const all=(months[mk]||[]);
+  const list=all.filter(x=>!isInc(x.c));
   $('mLabel').textContent=y+'.'+pad(m+1);
+  ['exp','inc','sta'].forEach(t=>{$({exp:'pExp',inc:'pInc',sta:'pSta'}[t]).hidden=t!==tab});
+  document.querySelectorAll('.tab').forEach(b=>{const on=b.dataset.t===tab;b.classList.toggle('on',on);b.setAttribute('aria-current',on?'page':'false')});
+  $('fab').hidden=tab==='sta';
+  $('fab').setAttribute('aria-label',tab==='inc'?'记一笔收入':'记一笔');
   const today=ymd(now);
   const ws=weekStart(now),we=new Date(ws);we.setDate(ws.getDate()+7);
-  const weekList=allItems().filter(x=>{const d=new Date(x.d+'T12:00');return d>=ws&&d<we});
+  const weekList=allItems().filter(x=>!isInc(x.c)).filter(x=>{const d=new Date(x.d+'T12:00');return d>=ws&&d<we});
   const dk=dark();
 
   let spentNoSave=0,budNoSave=0,stripHTML='';
@@ -268,26 +347,84 @@ function render(){
   $('heroSpent').textContent='已用 ¥'+fmt(spentNoSave)+' · 已存 ¥'+fmt(sum(list,'save'));
   $('heroDays').textContent=isCur?'剩 '+(days-now.getDate()+1)+' 天':(view<now?'已结束':'未开始');
 
-  // records
-  list.sort((a,b)=>b.d.localeCompare(a.d)||b.t-a.t);
-  $('cnt').textContent=list.length?list.length+' 笔':'';
-  if(!list.length){$('records').innerHTML='<div class="empty">这个月还没有记录<br>点下方 + 记第一笔</div>';return}
+  drawRecords($('records'),$('cnt'),list,today,'这个月还没有支出记录<br>点 + 记第一笔');
+  renderInc(all,today,dk);
+  renderSta(all,dk);
+}
+
+function drawRecords(el,cntEl,list,today,emptyMsg){
+  list=list.slice().sort((a,b)=>b.d.localeCompare(a.d)||b.t-a.t);
+  cntEl.textContent=list.length?list.length+' 笔':'';
+  if(!list.length){el.innerHTML='<div class="empty">'+emptyMsg+'</div>';return}
+  const dk=dark();
   const groups={};list.forEach(x=>(groups[x.d]=groups[x.d]||[]).push(x));
   const wk='日一二三四五六';
-  $('records').innerHTML=Object.keys(groups).map(d=>{
-    const dt=new Date(d+'T12:00');const tot=groups[d].filter(x=>x.c!=='save').reduce((s,x)=>s+x.a,0);
-    return '<div class="day"><p><span>'+(dt.getMonth()+1)+'月'+dt.getDate()+'日 周'+wk[dt.getDay()]+(d===today?' · 今天':'')+'</span><span class="num">支出 ¥'+fmt(tot)+'</span></p><div class="list">'+
-      groups[d].map(x=>{const c=CATS.find(z=>z.k===x.c)||CATS[1];
-        return '<div class="item"><span class="dot" style="background:'+(dk?c.dk:c.tint)+';color:'+c.fill+'">'+svg(c.k)+'</span><div class="t"><div>'+c.n+'</div>'+(x.n?'<small>'+esc(x.n)+'</small>':'')+'</div><span class="amt num">'+(x.c==='save'?'+':'−')+'¥'+esc(fmt(x.a))+'</span><button class="del" data-id="'+esc(x.id)+'" data-m="'+esc(mkey(x.d))+'" aria-label="删除">删除</button></div>'}).join('')+
+  el.innerHTML=Object.keys(groups).map(d=>{
+    const dt=new Date(d+'T12:00');const g=groups[d];const inc=isInc(g[0].c);
+    const tot=g.filter(x=>x.c!=='save').reduce((s,x)=>s+x.a,0);
+    return '<div class="day"><p><span>'+(dt.getMonth()+1)+'月'+dt.getDate()+'日 周'+wk[dt.getDay()]+(d===today?' · 今天':'')+'</span><span class="num">'+(inc?'收入':'支出')+' ¥'+fmt(tot)+'</span></p><div class="list">'+
+      g.map(x=>{const c=ALL.find(z=>z.k===x.c)||CATS[1];
+        return '<div class="item"><span class="dot" style="background:'+(dk?c.dk:c.tint)+';color:'+c.fill+'">'+svg(c.k)+'</span><div class="t"><div>'+c.n+'</div>'+(x.n?'<small>'+esc(x.n)+'</small>':'')+'</div><span class="amt num">'+((x.c==='save'||isInc(x.c))?'+':'−')+'¥'+esc(fmt(x.a))+'</span><button class="del" data-id="'+esc(x.id)+'" data-m="'+esc(mkey(x.d))+'" aria-label="删除">删除</button></div>'}).join('')+
       '</div></div>'}).join('');
+}
+
+function renderInc(all,today,dk){
+  const list=all.filter(x=>isInc(x.c));
+  const tot=list.reduce((s,x)=>s+x.a,0);
+  $('incAmt').innerHTML='<span>¥</span>'+esc(fmt(tot));
+  $('incStrip').innerHTML=tot?INC.map(c=>{const v=sum(list,c.k);return v?'<i style="width:'+(v/tot*100)+'%;background:'+c.fill+'"></i>':''}).join(''):'';
+  $('incSub').textContent=list.length?'共 '+list.length+' 笔':'这个月还没有收入';
+  $('incCnt2').textContent='';
+  $('incCards').innerHTML=INC.map(c=>{
+    const v=sum(list,c.k),n=list.filter(x=>x.c===c.k).length,p=tot?v/tot*100:0;
+    return '<button class="card inc" data-k="'+c.k+'" aria-label="记一笔'+c.n+'">'+
+      '<div class="top"><span class="dot" style="background:'+(dk?c.dk:c.tint)+';color:'+c.fill+'">'+svg(c.k)+'</span><b>'+c.n+'</b>'+
+      '<span class="left">'+n+' 笔<strong class="num">¥'+fmt(v)+'</strong></span></div>'+
+      '<div class="row"><span>占本月收入</span><span class="num">'+Math.round(p)+'%</span></div>'+
+      '<div class="bar thin" style="background:'+(dk?c.dk:c.tint)+'"><i style="width:'+p+'%;background:'+c.fill+'"></i></div></button>'}).join('');
+  drawRecords($('incRecords'),$('incCnt'),list,today,'这个月还没有收入记录<br>点 + 记一笔收入');
+}
+
+function donut(el,title,cats,list,emptyMsg){
+  const vals=cats.map(c=>({c,v:sum(list,c.k)})).filter(o=>o.v>0);
+  const tot=vals.reduce((s,o)=>s+o.v,0);
+  let h='<h4>'+title+'<span class="num">¥'+fmt(tot)+'</span></h4>';
+  if(!tot){el.innerHTML=h+'<div class="pieEmpty">'+emptyMsg+'</div>';return}
+  const R=60,C=2*Math.PI*R,gap=vals.length>1?2:0;let off=0;
+  const segs=vals.map(o=>{const len=o.v/tot*C;const seg='<circle cx="80" cy="80" r="'+R+'" fill="none" stroke="'+o.c.fill+'" stroke-width="22" stroke-dasharray="'+Math.max(0,len-gap)+' '+(C-Math.max(0,len-gap))+'" stroke-dashoffset="'+(-off)+'"/>';off+=len;return seg}).join('');
+  const top=vals.slice().sort((a,b)=>b.v-a.v)[0];
+  h+='<div class="pieBody"><div class="donut"><svg viewBox="0 0 160 160" aria-hidden="true"><circle cx="80" cy="80" r="'+R+'" fill="none" stroke="var(--line)" stroke-width="22"/>'+segs+'</svg>'+
+     '<div class="c"><small>最多</small><b>'+top.c.n+'</b><small class="num">'+Math.round(top.v/tot*100)+'%</small></div></div>'+
+     '<div class="legend">'+cats.map(c=>{const v=sum(list,c.k);return '<div><i style="background:'+c.fill+'"></i><span>'+c.n+'</span><em class="num">'+(tot?Math.round(v/tot*100):0)+'%</em><span class="num">¥'+fmt(v)+'</span></div>'}).join('')+'</div></div>';
+  el.innerHTML=h;
+}
+
+function renderSta(all){
+  const exp=all.filter(x=>!isInc(x.c)),inc=all.filter(x=>isInc(x.c));
+  const ti=inc.reduce((s,x)=>s+x.a,0),te=exp.reduce((s,x)=>s+x.a,0),ts=sum(exp,'save');
+  const bal=ti-te;
+  $('balLbl').textContent=bal>=0?'本月结余':'本月入不敷出';
+  $('balAmt').innerHTML='<span>'+(bal<0?'−':'')+'¥</span>'+esc(fmt(Math.abs(bal)));
+  $('balAmt').classList.toggle('ov',bal<0);
+  $('balSub').textContent='收入 ¥'+fmt(ti)+' − 支出 ¥'+fmt(te);
+  donut($('pieExp'),'支出占比',CATS,exp,'这个月还没有支出');
+  donut($('pieInc'),'收入占比',INC,inc,'这个月还没有收入');
+  $('balTable').innerHTML=
+    '<div><span>收入</span><span class="num">+¥'+fmt(ti)+'</span></div>'+
+    '<div><span>消费支出</span><span class="num">−¥'+fmt(te-ts)+'</span></div>'+
+    '<div><span>转入储蓄</span><span class="num">−¥'+fmt(ts)+'</span></div>'+
+    '<div><span>结余</span><span class="num'+(bal<0?' ov':'')+'">'+(bal<0?'−':'')+'¥'+fmt(Math.abs(bal))+'</span></div>';
 }
 
 /* ---------- sheets ---------- */
 function openSheet(id){document.getElementById('layer').classList.add('open');$(id).classList.add('on')}
 function closeSheets(){document.getElementById('layer').classList.remove('open');$('addSheet').classList.remove('on');$('setSheet').classList.remove('on')}
-function chips(){$('chips').innerHTML=CATS.map(c=>'<button class="chip'+(c.k===pickCat?' sel':'')+'" data-k="'+c.k+'">'+c.n+'</button>').join('')}
+function chips(){const set=isInc(pickCat)?INC:CATS;$('addSheet').querySelector('h3').textContent=isInc(pickCat)?'记一笔收入':'记一笔';$('chips').innerHTML=set.map(c=>'<button class="chip'+(c.k===pickCat?' sel':'')+'" data-k="'+c.k+'">'+c.n+'</button>').join('')}
 function openAdd(k){
-  pickCat=k||pickCat;chips();
+  if(k)pickCat=k;
+  else if(tab==='inc'&&!isInc(pickCat))pickCat='life';
+  else if(tab!=='inc'&&isInc(pickCat))pickCat='food';
+  chips();
   $('amt').value='';$('noteIn').value='';
   const now=new Date();
   const isCur=now.getFullYear()===view.getFullYear()&&now.getMonth()===view.getMonth();
@@ -299,6 +436,8 @@ function toast(t){const el=$('toast');el.textContent=t;el.classList.add('on');cl
 
 $('fab').onclick=()=>openAdd();
 $('cards').onclick=e=>{const b=e.target.closest('.card');if(b)openAdd(b.dataset.k)};
+$('incCards').onclick=e=>{const b=e.target.closest('.card');if(b)openAdd(b.dataset.k)};
+document.querySelector('.tabs').onclick=e=>{const b=e.target.closest('.tab');if(!b)return;tab=b.dataset.t;try{localStorage.setItem('ledger.tab',tab)}catch(x){}render();scrollTo(0,0)};
 $('chips').onclick=e=>{const b=e.target.closest('.chip');if(b){pickCat=b.dataset.k;chips()}};
 $('scrim').onclick=closeSheets;
 $('amt').oninput=()=>{const v=$('amt').value.replace(/[^\d.]/g,'').replace(/(\..*)\./g,'$1');$('amt').value=v;$('save').disabled=!(parseFloat(v)>0)};
@@ -308,13 +447,14 @@ $('save').onclick=()=>{
   const item={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),c:pickCat,a,n:$('noteIn').value.trim().slice(0,40),d,t:Date.now()};
   months[m]=(months[m]||[]).concat(item);saveLocal();pushMonth(m);
   closeSheets();render();
-  const c=CATS.find(z=>z.k===pickCat);toast(c.n+' '+(pickCat==='save'?'+':'−')+'¥'+fmt(a));
+  const c=ALL.find(z=>z.k===pickCat);toast(c.n+' '+((pickCat==='save'||isInc(pickCat))?'+':'−')+'¥'+fmt(a));
 };
-$('records').onclick=e=>{
+const onDel=e=>{
   const b=e.target.closest('.del');if(!b)return;
   if(!b.classList.contains('sure')){document.querySelectorAll('.del.sure').forEach(x=>{x.classList.remove('sure');x.textContent='删除'});b.classList.add('sure');b.textContent='确认删除';return}
   const m=b.dataset.m;months[m]=(months[m]||[]).filter(x=>x.id!==b.dataset.id);saveLocal();pushMonth(m);render();toast('已删除');
 };
+$('records').onclick=onDel;$('incRecords').onclick=onDel;
 $('prev').onclick=()=>{view.setMonth(view.getMonth()-1);render()};
 $('next').onclick=()=>{view.setMonth(view.getMonth()+1);render()};
 $('setBtn').onclick=()=>{
