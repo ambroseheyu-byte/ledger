@@ -204,7 +204,7 @@ h2 span{font-size:13px;color:var(--mute);font-weight:400}
     <div class="grab"></div>
     <h3>每月预算</h3>
     <div class="set" id="setForm"></div>
-    <p class="hint">吃饭另设每日额度；其他四项的每周额度按「月额度 × 7 ÷ 当月天数」自动算出。</p>
+    <p class="hint">吃饭的每日额度 = 月额度 ÷ 当月天数；其他四项的每周额度 = 月额度 × 7 ÷ 当月天数，都会自动算出。</p>
     <button class="go" id="saveSet">保存预算</button>
     <h3 style="margin-top:26px">数据备份</h3>
     <p class="hint" style="margin:0 0 12px">记录只存在这台手机上。建议每月导出一次，存到「文件」或发给自己，换手机时再导入。</p>
@@ -321,7 +321,7 @@ function render(){
     if(c.k!=='save'){spentNoSave+=S;budNoSave+=B}
     stripHTML+='<i style="width:'+(B/total*100)+'%;background:linear-gradient(90deg,'+c.fill+' '+pct+'%,'+(dk?c.dk:c.tint)+' '+pct+'%)"></i>';
     let sLbl,sB,sS;
-    if(c.k==='food'){sLbl='今日';sB=+budgets.foodDay||0;sS=isCur?list.filter(x=>x.c==='food'&&x.d===today).reduce((s,x)=>s+x.a,0):null}
+    if(c.k==='food'){sLbl='今日';sB=Math.round(B/days*100)/100;sS=isCur?list.filter(x=>x.c==='food'&&x.d===today).reduce((s,x)=>s+x.a,0):null}
     else{sLbl='本周';sB=Math.round(B*7/days);sS=isCur?sum(weekList,c.k):null}
     const verb=c.k==='save'?'已存':'已花';
     const left=B-S;
@@ -458,8 +458,7 @@ $('records').onclick=onDel;$('incRecords').onclick=onDel;
 $('prev').onclick=()=>{view.setMonth(view.getMonth()-1);render()};
 $('next').onclick=()=>{view.setMonth(view.getMonth()+1);render()};
 $('setBtn').onclick=()=>{
-  $('setForm').innerHTML=CATS.map(c=>'<label>'+c.n+'<input class="num" inputmode="decimal" data-k="'+c.k+'" value="'+esc(budgets[c.k])+'"></label>').join('')+
-   '<label>吃饭/天<input class="num" inputmode="decimal" data-k="foodDay" value="'+esc(budgets.foodDay)+'"></label>';
+  $('setForm').innerHTML=CATS.map(c=>'<label>'+c.n+'<input class="num" inputmode="decimal" data-k="'+c.k+'" value="'+esc(budgets[c.k])+'"></label>').join('');
   openSheet('setSheet');
 };
 $('saveSet').onclick=()=>{
